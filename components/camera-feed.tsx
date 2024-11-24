@@ -267,6 +267,30 @@ export default function CameraFeed() {
     setOverlayScale(newScale);
   };
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault(); // Prevent scrolling
+    setIsDragging(true);
+    setDragStart({
+      x: e.touches[0].clientX - overlayPosition.x,
+      y: e.touches[0].clientY - overlayPosition.y
+    });
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault(); // Prevent scrolling
+    if (isDragging) {
+      setOverlayPosition({
+        x: e.touches[0].clientX - dragStart.x,
+        y: e.touches[0].clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault(); // Prevent scrolling
+    setIsDragging(false);
+  };
+
   const generateRandomColor = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -352,10 +376,17 @@ export default function CameraFeed() {
           <div
             className="absolute cursor-move"
             style={{
-              transform: `translate(${overlayPosition.x}px, ${overlayPosition.y}px) scale(${overlayScale})`,
-              transformOrigin: 'center',
+              position: 'absolute',
+              left: overlayPosition.x,
+              top: overlayPosition.y,
+              transform: `scale(${overlayScale})`,
+              cursor: isDragging ? 'grabbing' : 'grab',
+              touchAction: 'none', // Disable browser touch actions
             }}
             onMouseDown={handleDragStart}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             onWheel={handleWheel}
           >
             <img
