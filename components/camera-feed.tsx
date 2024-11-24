@@ -444,8 +444,7 @@ export default function CameraFeed() {
               value={overlayOpacity}
               onChange={(e) => setOverlayOpacity(parseFloat(e.target.value))}
               className="w-4 h-32 -rotate-180 bg-white/10 backdrop-blur-sm rounded-lg appearance-none cursor-pointer"
-              style={{
-                writingMode: 'bt-lr',
+              style={{ 
                 WebkitAppearance: 'slider-vertical'
               }}
             />
@@ -489,7 +488,8 @@ export default function CameraFeed() {
           >
             {isAudioEnabled ? <Mic className="h-4 w-4" /> : <MicOff className="h-4 w-4" />}
           </Button>
-        )}{overlayImage && 
+        )}
+        {overlayImage && 
         <Button
           variant={strobeEnabled ? "destructive" : "default"}
           size="sm"
@@ -504,7 +504,8 @@ export default function CameraFeed() {
             max="2000"
             value={strobeSpeed}
             onChange={(e) => setStrobeSpeed(Number(e.target.value))}
-            className="w-32"
+            className="w-32 h-4 bg-white/10 backdrop-blur-sm rounded-lg appearance-none cursor-pointer"
+           
           />
         )}
         {strobeEnabled && (
